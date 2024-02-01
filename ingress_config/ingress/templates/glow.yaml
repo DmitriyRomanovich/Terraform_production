@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains";
+      more_set_headers "Content-Security-Policy frame-src https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.adyen.com https://*.cdn-net.com;frame-ancestors https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.samsung.com;connect-src 'self' https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.google-analytics.com https://*.adyen.com https://*.cdn-net.com;upgrade-insecure-requests;";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-Frame-Options: SAMEORIGIN";
+
+  name: glow
+spec:
+#SSL
+  tls:
+  - hosts:
+    - platform.{{ .Values.env_domain }}.glowfinsvs.com
+    secretName: {{ .Values.glowapi }}-tls
+  - hosts:
+    - paymentsession.samsungfinance.co.uk
+    secretName: {{ .Values.paymentui }}-tls
+  - hosts:
+    - app.samsungfinance.co.uk
+    secretName: {{ .Values.glowui }}-tls
+
+
+#Rules
+
+  rules:
+  
+  - host: platform.{{ .Values.env_domain }}.glowfinsvs.com
+    http:
+      paths:
+      - path: /api/
+        backend:
+          serviceName: glowapi
+          servicePort: http
+      - path: /api/accertify/transaction/resolve
+        backend:
+          serviceName: accertify
+          servicePort: http
+
+  - host: paymentsession.samsungfinance.co.uk
+    http:
+      paths:
+      - backend:
+          serviceName: paymentui
+          servicePort: http
+        path: /
+
+  - host: app.samsungfinance.co.uk
+    http:
+      paths:
+      - backend:
+          serviceName: glowui
+          servicePort: http
+        path: /

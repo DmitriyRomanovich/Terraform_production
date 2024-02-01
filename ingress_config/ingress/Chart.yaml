@@ -1,0 +1,10 @@
+apiVersion: v2
+name: ingressconfig
+description: A Helm chart for deploying ingress nginx config
+
+type: application
+
+version: 0.1.0
+appVersion: 0.1.0
+
+

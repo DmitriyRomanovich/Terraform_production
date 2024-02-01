@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "51.104.229.140,82.209.219.176,82.209.212.202,178.124.194.82,86.57.130.168/29,86.57.158.234,212.98.185.87,82.209.240.98,80.249.80.86,212.98.191.237"
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains";
+      more_set_headers "Content-Security-Policy frame-src https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.adyen.com https://*.cdn-net.com;frame-ancestors https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.samsung.com;connect-src 'self' https://*.samsungfinance.co.uk https://*.glowfinsvs.com https://*.google-analytics.com https://*.adyen.com https://*.cdn-net.com;upgrade-insecure-requests;";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-Frame-Options: SAMEORIGIN";
+
+  name: loan
+spec:
+#SSL
+  tls:
+  - hosts:
+    - lm.{{ .Values.env_domain }}.glowfinsvs.com
+    secretName: {{ .Values.loanapi }}-tls
+  - hosts:
+    - lm.samsungfinance.co.uk
+    secretName: {{ .Values.loanui }}-tls
+
+
+#Rules
+  rules:
+  
+  - host: lm.{{ .Values.env_domain }}.glowfinsvs.com
+    http:
+      paths:
+      - backend:
+         serviceName: loanapi
+         servicePort: http
+        path: /api/
+  
+
+  - host: lm.samsungfinance.co.uk
+    http:
+      paths:
+      - backend:
+          serviceName: loanui
+          servicePort: http
+        path: /
+

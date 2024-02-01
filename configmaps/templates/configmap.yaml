@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-config-glowui
+data:
+  config.js: |
+    window._config_ = {
+      GLOW_DOMAIN: 'https://platform.prod.glowfinsvs.com',
+      CLIENT_SITE_WEB_DOMAIN: 'https://admin.samsungfinance.co.uk',
+      SAMSUNG_LINK: 'https://www.SamsungFinance.co.uk',
+      INAUTH: {
+        ENABLED: {{ .Values.inauth_enable }},
+        DOMAIN: '{{ .Values.inauth_domain }}',
+        API_KEY: '{{ .Values.inauth_apikey }}',
+      },
+      ADYEN: {
+        ENVIRONMENT: 'test',
+        CLIENT_KEY: 'test_2SHLNYWCQ5C4PLJALPWZG2SNAEVWKVMZ'
+      }
+    };
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-config-payment
+data:
+  config.js: |
+    window._config_ = {
+      GLOW_DOMAIN: 'https://platform.prod.glowfinsvs.com',
+    };
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-config-lm
+data:
+  config.js: |
+    window._config_ = {
+      LOAN_MANAGEMENT_URL: 'https://lm.prod.glowfinsvs.com',
+    };
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-config-demo
+data:
+  config.js: |
+    window._config_ = {
+      GLOW_WEB_DOMAIN: 'https://app.samsungfinance.co.uk',
+      USER_EXAMPLE_SITE_API_DOMAIN: 'https://app.prod.glowfinsvs.com',
+      USER_EXAMPLE_SITE_WEB_DOMAIN: 'https://admin.samsungfinance.co.uk',
+      FINANCIAL_CALCULATOR_WEB_DOMAIN: 'https://fincalc.samsungfinance.co.uk/'
+    };

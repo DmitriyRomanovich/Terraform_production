@@ -1,0 +1,4 @@
+env_domain: ${env_domain}
+inauth_enable: ${inauth_enable}
+inauth_domain: ${inauth_domain}
+inauth_apikey: ${inauth_apikey}

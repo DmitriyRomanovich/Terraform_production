@@ -1,0 +1,95 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.calc }}-tls
+spec:
+  dnsNames:
+    - fincalc.samsungfinance.co.uk
+  secretName: {{ .Values.calc }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.glowapi }}-tls
+spec:
+  dnsNames:
+    - platform.{{ .Values.env_domain }}.glowfinsvs.com
+  secretName: {{ .Values.glowapi }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.loanapi }}-tls
+spec:
+  dnsNames:
+    - lm.{{ .Values.env_domain }}.glowfinsvs.com
+  secretName: {{ .Values.loanapi }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.paymentui }}-tls
+spec:
+  dnsNames:
+    - paymentsession.samsungfinance.co.uk
+  secretName: {{ .Values.paymentui }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.loanui }}-tls
+spec:
+  dnsNames:
+    - lm.samsungfinance.co.uk
+  secretName: {{ .Values.loanui }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.glowui }}-tls
+spec:
+  dnsNames:
+    - app.samsungfinance.co.uk
+  secretName: {{ .Values.glowui }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.demo_back }}-tls
+spec:
+  dnsNames:
+    - app.prod.glowfinsvs.com
+  secretName: {{ .Values.demo_back }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.demo_ui }}-tls
+spec:
+  dnsNames:
+    - admin.samsungfinance.co.uk
+  secretName: {{ .Values.demo_ui }}-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer

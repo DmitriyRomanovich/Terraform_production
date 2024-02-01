@@ -1,0 +1,9 @@
+calc: ${calc}
+glowapi: ${glowapi}
+loanapi: ${loanapi}
+paymentui: ${paymentui}
+loanui: ${loanui}
+glowui: ${glowui}
+demo_back: ${demo_back}
+demo_ui: ${demo_ui}
+env_domain: ${env_domain}
